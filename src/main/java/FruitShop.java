@@ -50,77 +50,89 @@ public class FruitShop {
         fruitData.add(deliveryList);
     }
 
-    public List<Fruit> getSpoiledAndAvailableFruits(String expirationDate) {
+    public List<Fruit> getSpoiledFruits(String expirationDate) {
         List<Fruit> fruits = new ArrayList<>(fruitData.get(0).fruits);
         List<Fruit> spoiledFruits = new ArrayList<>();
-        List<Fruit> availableFruits = new ArrayList<>();
         long dateDifference = 0;
-        Date date = null;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        try {
-            date = dateFormat.parse(expirationDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        LOGGER.info("Spoiled fruits for " + expirationDate + " from this delivery: ");
         for (Fruit fruit : fruits) {
             long expirationDateOfProduct = Long.parseLong(fruit.expirationDate);
-            dateDifference = date.getTime() - fruit.dateOfDelivery.getTime();
+            dateDifference = changeDateFormat(expirationDate).getTime() - fruit.dateOfDelivery.getTime();
             int differenceInDays = (int) (dateDifference / (24 * 60 * 60 * 1000));
             if (differenceInDays < expirationDateOfProduct) {
                 spoiledFruits.add(fruit);
-                LOGGER.info("Spoiled fruit from this delivery: " + fruit.typeOfFruits);
-            } else {
-                availableFruits.add(fruit);
-                LOGGER.info("Available to sell: " + fruit.typeOfFruits);
+                LOGGER.info(fruit.typeOfFruits);
             }
         }
         return spoiledFruits;
     }
 
-    public List<Fruit> getSpoiledAndAvailableFruits(String expirationDate, TypeOfFruit typeOfFruit) {
+
+    public List<Fruit> getAvailableFruits(String expirationDate) {
         List<Fruit> fruits = new ArrayList<>(fruitData.get(0).fruits);
-        List<Fruit> spoiledFruits = new ArrayList<>();
         List<Fruit> availableFruits = new ArrayList<>();
         long dateDifference = 0;
-        Date date = null;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        try {
-            date = dateFormat.parse(expirationDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        LOGGER.info("Available fruits for " + expirationDate + " to sell from this delivery: ");
+        for (Fruit fruit : fruits) {
+            long expirationDateOfProduct = Long.parseLong(fruit.expirationDate);
+            dateDifference = changeDateFormat(expirationDate).getTime() - fruit.dateOfDelivery.getTime();
+            int differenceInDays = (int) (dateDifference / (24 * 60 * 60 * 1000));
+            if (differenceInDays > expirationDateOfProduct) {
+                availableFruits.add(fruit);
+                LOGGER.info(fruit.typeOfFruits);
+            }
         }
+        return availableFruits;
+    }
+
+    public List<Fruit> getSpoiledFruits(String expirationDate, TypeOfFruit typeOfFruit) {
+        List<Fruit> fruits = new ArrayList<>(fruitData.get(0).fruits);
+        List<Fruit> spoiledFruits = new ArrayList<>();
+        long dateDifference;
         for (Fruit fruit : fruits) {
             if (fruit.typeOfFruits.equals(typeOfFruit)) {
                 long expirationDateOfProduct = Long.parseLong(fruit.expirationDate);
-                dateDifference = date.getTime() - fruit.dateOfDelivery.getTime();
+                dateDifference = changeDateFormat(expirationDate).getTime() - fruit.dateOfDelivery.getTime();
                 int differenceInDays = (int) (dateDifference / (24 * 60 * 60 * 1000));
                 if (differenceInDays < expirationDateOfProduct) {
                     spoiledFruits.add(fruit);
-                    LOGGER.info("Spoiled fruit from this delivery: " + fruit.typeOfFruits);
-                } else {
-                    availableFruits.add(fruit);
-                    LOGGER.info("Available to sell: " + fruit.typeOfFruits);
                 }
             }
         }
+        LOGGER.info("Num of spoiled " + typeOfFruit + " for " + expirationDate + " from this delivery is: " + spoiledFruits.size());
         return spoiledFruits;
+    }
+
+    public List<Fruit> getAvailableFruits(String expirationDate, TypeOfFruit typeOfFruit) {
+        List<Fruit> fruits = new ArrayList<>(fruitData.get(0).fruits);
+        List<Fruit> availableFruits = new ArrayList<>();
+        long dateDifference;
+        for (Fruit fruit : fruits) {
+            if (fruit.typeOfFruits.equals(typeOfFruit)) {
+                long expirationDateOfProduct = Long.parseLong(fruit.expirationDate);
+                dateDifference = changeDateFormat(expirationDate).getTime() - fruit.dateOfDelivery.getTime();
+                int differenceInDays = (int) (dateDifference / (24 * 60 * 60 * 1000));
+                if (differenceInDays > expirationDateOfProduct) {
+                    availableFruits.add(fruit);
+                }
+            }
+        }
+        LOGGER.info("Num of available to sell " + typeOfFruit + " for " + expirationDate + " is: " + availableFruits.size());
+        return availableFruits;
     }
 
     public List<Fruit> getAddedFruits(String dateOfDelivery) {
         List<Fruit> fruits = new ArrayList<>(fruitData.get(0).fruits);
         List<Fruit> fruitsWhatWeNeed = new ArrayList<>();
-        Date date = null;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        try {
-            date = dateFormat.parse(dateOfDelivery);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        for (int i = 0; i < fruits.size(); i++) {
-            if (fruits.get(i).dateOfDelivery.equals(dateConfigure(date))) {
-                fruitsWhatWeNeed.add(fruits.get(i));
-                LOGGER.info("Fruit delivered on this date: " + fruits.get(i).typeOfFruits);
+        LOGGER.info("Fruit delivered on " + dateOfDelivery + " : ");
+        for (Fruit fruit : fruits) {
+            if (fruit.dateOfDelivery.equals(changeDateFormat(dateOfDelivery))) {
+                fruitsWhatWeNeed.add(fruit);
+                LOGGER.info(fruit.typeOfFruits);
             }
+        }
+        if (fruitsWhatWeNeed.size() == 0) {
+            LOGGER.info("None");
         }
         return fruitsWhatWeNeed;
     }
@@ -128,29 +140,34 @@ public class FruitShop {
     public List<Fruit> getAddedFruits(String dateOfDelivery, TypeOfFruit typeOfFruit) {
         List<Fruit> fruits = new ArrayList<>(fruitData.get(0).fruits);
         List<Fruit> fruitsWhatWeNeed = new ArrayList<>();
-        Date date = null;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        try {
-            date = dateFormat.parse(dateOfDelivery);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        for (int i = 0; i < fruits.size(); i++) {
-            if (fruits.get(i).dateOfDelivery.equals(dateConfigure(date)) & fruits.get(i).typeOfFruits.equals(typeOfFruit)) {
-                fruitsWhatWeNeed.add(fruits.get(i));
-                int numOfFruits = 0;
-                numOfFruits++;
-                LOGGER.info("Num of " + typeOfFruit + " delivered on this date : " + numOfFruits);
+        for (Fruit fruit : fruits) {
+            if (fruit.dateOfDelivery.equals(changeDateFormat(dateOfDelivery)) & fruit.typeOfFruits.equals(typeOfFruit)) {
+                fruitsWhatWeNeed.add(fruit);
+                LOGGER.info("Num of " + typeOfFruit + " delivered on " + dateOfDelivery + " : " + fruitsWhatWeNeed.size());
             }
+        }
+        if (fruitsWhatWeNeed.size() == 0) {
+            LOGGER.info("None");
         }
         return fruitsWhatWeNeed;
     }
 
-    private Date dateConfigure(Date dt) {
-        Calendar c = Calendar.getInstance();
-        c.setTime(dt);
-        c.add(Calendar.HOUR, 2);
-        dt = c.getTime();
-        return dt;
+    private Date changeDateFormat(String expirationDate) {
+        Date date = null;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            date = dateFormat.parse(expirationDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return dateConfigure(date);
+    }
+
+    private Date dateConfigure(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.HOUR, 2);
+        date = calendar.getTime();
+        return date;
     }
 }
