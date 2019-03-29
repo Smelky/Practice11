@@ -3,6 +3,8 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static junit.framework.TestCase.assertEquals;
+
 public class TestDeliveryCar {
 
     @Test
@@ -28,6 +30,7 @@ public class TestDeliveryCar {
         fruits.add(new Fruit(TypeOfFruit.APPLE, "7", "12-05-2012", 29));
         DeliveryCar deliveryCar = new DeliveryCar();
         DeliveryList deliveryList = new DeliveryList();
-        deliveryCar.delivery(deliveryList.deliveryList(fruits), "First");
+        deliveryCar.delivery(deliveryList.delivery(fruits), "First");
+        assertEquals(fruits.size(), 18);
     }
 }

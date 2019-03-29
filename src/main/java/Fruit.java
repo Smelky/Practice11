@@ -6,18 +6,37 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Fruit {
-    public TypeOfFruit typeOfFruits;
-    public String expirationDate;
+    private TypeOfFruit typeOfFruits;
+    private String expirationDate;
     @JsonFormat
             (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    public Date dateOfDelivery;
-    public int price;
+    private Date dateOfDelivery;
+    private int price;
+
+    public Fruit() {
+    }
 
     public Fruit(TypeOfFruit typeOfFruits, String expirationDate, String dateOfDelivery, int price) {
         this.typeOfFruits = typeOfFruits;
         this.expirationDate = expirationDate;
         this.dateOfDelivery = changeTimeFormat(dateOfDelivery);
         this.price = price;
+    }
+
+    public TypeOfFruit getTypeOfFruits() {
+        return typeOfFruits;
+    }
+
+    public String getExpirationDate() {
+        return expirationDate;
+    }
+
+    public Date getDateOfDelivery() {
+        return dateOfDelivery;
+    }
+
+    public int getPrice() {
+        return price;
     }
 
     private Date changeTimeFormat(String toParse) {
@@ -37,8 +56,5 @@ public class Fruit {
         c.add(Calendar.DATE, 1);
         dt = c.getTime();
         return dt;
-    }
-
-    public Fruit() {
     }
 }

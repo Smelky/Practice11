@@ -1,13 +1,17 @@
 import java.util.List;
 
-public class DeliveryList {
-    public List<Fruit> fruits;
+public class DeliveryList<Fruit> {
+    private List<Fruit> fruits;
 
-    public DeliveryList deliveryList(List fruitsForDelivery) {
+    public DeliveryList() {
+    }
+
+    public DeliveryList<Fruit> delivery(List fruitsForDelivery) {
         fruits = fruitsForDelivery;
         return this;
     }
 
-    public DeliveryList() {
+    public List<Fruit> getFruits() {
+        return fruits;
     }
 }

@@ -51,47 +51,47 @@ public class FruitShop {
     }
 
     public List<Fruit> getSpoiledFruits(String expirationDate) {
-        List<Fruit> fruits = new ArrayList<>(fruitData.get(0).fruits);
+        List<Fruit> fruits = new ArrayList<>(fruitData.get(0).getFruits());
         List<Fruit> spoiledFruits = new ArrayList<>();
         long dateDifference = 0;
         LOGGER.info("Spoiled fruits for " + expirationDate + " from this delivery: ");
         for (Fruit fruit : fruits) {
-            long expirationDateOfProduct = Long.parseLong(fruit.expirationDate);
-            dateDifference = changeDateFormat(expirationDate).getTime() - fruit.dateOfDelivery.getTime();
+            long expirationDateOfProduct = Long.parseLong(fruit.getExpirationDate());
+            dateDifference = changeDateFormat(expirationDate).getTime() - fruit.getDateOfDelivery().getTime();
             int differenceInDays = (int) (dateDifference / (24 * 60 * 60 * 1000));
             if (differenceInDays < expirationDateOfProduct) {
                 spoiledFruits.add(fruit);
-                LOGGER.info(fruit.typeOfFruits);
+                LOGGER.info(fruit.getTypeOfFruits());
             }
         }
         return spoiledFruits;
     }
 
     public List<Fruit> getAvailableFruits(String expirationDate) {
-        List<Fruit> fruits = new ArrayList<>(fruitData.get(0).fruits);
+        List<Fruit> fruits = new ArrayList<>(fruitData.get(0).getFruits());
         List<Fruit> availableFruits = new ArrayList<>();
         long dateDifference = 0;
         LOGGER.info("Available fruits for " + expirationDate + " to sell from this delivery: ");
         for (Fruit fruit : fruits) {
-            long expirationDateOfProduct = Long.parseLong(fruit.expirationDate);
-            dateDifference = changeDateFormat(expirationDate).getTime() - fruit.dateOfDelivery.getTime();
+            long expirationDateOfProduct = Long.parseLong(fruit.getExpirationDate());
+            dateDifference = changeDateFormat(expirationDate).getTime() - fruit.getDateOfDelivery().getTime();
             int differenceInDays = (int) (dateDifference / (24 * 60 * 60 * 1000));
             if (differenceInDays > expirationDateOfProduct) {
                 availableFruits.add(fruit);
-                LOGGER.info(fruit.typeOfFruits);
+                LOGGER.info(fruit.getTypeOfFruits());
             }
         }
         return availableFruits;
     }
 
     public List<Fruit> getSpoiledFruits(String expirationDate, TypeOfFruit typeOfFruit) {
-        List<Fruit> fruits = new ArrayList<>(fruitData.get(0).fruits);
+        List<Fruit> fruits = new ArrayList<>(fruitData.get(0).getFruits());
         List<Fruit> spoiledFruits = new ArrayList<>();
         long dateDifference;
         for (Fruit fruit : fruits) {
-            if (fruit.typeOfFruits.equals(typeOfFruit)) {
-                long expirationDateOfProduct = Long.parseLong(fruit.expirationDate);
-                dateDifference = changeDateFormat(expirationDate).getTime() - fruit.dateOfDelivery.getTime();
+            if (fruit.getTypeOfFruits().equals(typeOfFruit)) {
+                long expirationDateOfProduct = Long.parseLong(fruit.getExpirationDate());
+                dateDifference = changeDateFormat(expirationDate).getTime() - fruit.getDateOfDelivery().getTime();
                 int differenceInDays = (int) (dateDifference / (24 * 60 * 60 * 1000));
                 if (differenceInDays < expirationDateOfProduct) {
                     spoiledFruits.add(fruit);
@@ -103,13 +103,13 @@ public class FruitShop {
     }
 
     public List<Fruit> getAvailableFruits(String expirationDate, TypeOfFruit typeOfFruit) {
-        List<Fruit> fruits = new ArrayList<>(fruitData.get(0).fruits);
+        List<Fruit> fruits = new ArrayList<>(fruitData.get(0).getFruits());
         List<Fruit> availableFruits = new ArrayList<>();
         long dateDifference;
         for (Fruit fruit : fruits) {
-            if (fruit.typeOfFruits.equals(typeOfFruit)) {
-                long expirationDateOfProduct = Long.parseLong(fruit.expirationDate);
-                dateDifference = changeDateFormat(expirationDate).getTime() - fruit.dateOfDelivery.getTime();
+            if (fruit.getTypeOfFruits().equals(typeOfFruit)) {
+                long expirationDateOfProduct = Long.parseLong(fruit.getExpirationDate());
+                dateDifference = changeDateFormat(expirationDate).getTime() - fruit.getDateOfDelivery().getTime();
                 int differenceInDays = (int) (dateDifference / (24 * 60 * 60 * 1000));
                 if (differenceInDays > expirationDateOfProduct) {
                     availableFruits.add(fruit);
@@ -121,13 +121,13 @@ public class FruitShop {
     }
 
     public List<Fruit> getAddedFruits(String dateOfDelivery) {
-        List<Fruit> fruits = new ArrayList<>(fruitData.get(0).fruits);
+        List<Fruit> fruits = new ArrayList<>(fruitData.get(0).getFruits());
         List<Fruit> fruitsWhatWeNeed = new ArrayList<>();
         LOGGER.info("Fruit delivered on " + dateOfDelivery + " : ");
         for (Fruit fruit : fruits) {
-            if (fruit.dateOfDelivery.equals(changeDateFormat(dateOfDelivery))) {
+            if (fruit.getDateOfDelivery().equals(changeDateFormat(dateOfDelivery))) {
                 fruitsWhatWeNeed.add(fruit);
-                LOGGER.info(fruit.typeOfFruits);
+                LOGGER.info(fruit.getTypeOfFruits());
             }
         }
         if (fruitsWhatWeNeed.size() == 0) {
@@ -137,10 +137,10 @@ public class FruitShop {
     }
 
     public List<Fruit> getAddedFruits(String dateOfDelivery, TypeOfFruit typeOfFruit) {
-        List<Fruit> fruits = new ArrayList<>(fruitData.get(0).fruits);
+        List<Fruit> fruits = new ArrayList<>(fruitData.get(0).getFruits());
         List<Fruit> fruitsWhatWeNeed = new ArrayList<>();
         for (Fruit fruit : fruits) {
-            if (fruit.dateOfDelivery.equals(changeDateFormat(dateOfDelivery)) & fruit.typeOfFruits.equals(typeOfFruit)) {
+            if (fruit.getDateOfDelivery().equals(changeDateFormat(dateOfDelivery)) & fruit.getTypeOfFruits().equals(typeOfFruit)) {
                 fruitsWhatWeNeed.add(fruit);
                 LOGGER.info("Num of " + typeOfFruit + " delivered on " + dateOfDelivery + " : " + fruitsWhatWeNeed.size());
             }
