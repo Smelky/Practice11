@@ -67,7 +67,6 @@ public class FruitShop {
         return spoiledFruits;
     }
 
-
     public List<Fruit> getAvailableFruits(String expirationDate) {
         List<Fruit> fruits = new ArrayList<>(fruitData.get(0).fruits);
         List<Fruit> availableFruits = new ArrayList<>();
