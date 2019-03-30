@@ -19,7 +19,7 @@ public class TestFruitShop {
     public void testGetSpoiledAndAvailableFruits(){
         int numOfSpoiledFruits = fruitShop.getSpoiledFruits("24-05-2012").size();
         int numOfAvailableFruits = fruitShop.getAvailableFruits("24-05-2012").size();
-        assertEquals((numOfSpoiledFruits + numOfAvailableFruits), 18);
+        assertEquals((numOfSpoiledFruits + numOfAvailableFruits), 14);
     }
 
     @Test
