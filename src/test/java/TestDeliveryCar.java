@@ -1,3 +1,4 @@
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -6,10 +7,15 @@ import java.util.List;
 import static junit.framework.TestCase.assertEquals;
 
 public class TestDeliveryCar {
+    private List<Fruit> fruits;
+
+    @Before
+    public void setUp() {
+        fruits = new ArrayList<>();
+    }
 
     @Test
     public void testDeliveryCar() {
-        List fruits = new ArrayList();
         fruits.add(new Fruit(TypeOfFruit.KIWI, "4", "14-05-2012", 40));
         fruits.add(new Fruit(TypeOfFruit.KIWI, "3", "23-05-2012", 40));
         fruits.add(new Fruit(TypeOfFruit.KIWI, "4", "16-05-2012", 40));
@@ -31,6 +37,6 @@ public class TestDeliveryCar {
         DeliveryCar deliveryCar = new DeliveryCar();
         DeliveryList deliveryList = new DeliveryList();
         deliveryCar.delivery(deliveryList.delivery(fruits), "First");
-        assertEquals(fruits.size(), 18);
+        assertEquals(18, fruits.size());
     }
 }
