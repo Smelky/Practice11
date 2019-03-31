@@ -4,7 +4,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class TestFruitShop {
-    FruitShop fruitShop;
+    private FruitShop fruitShop;
 
     @Before
     public void setUp() {
