@@ -10,15 +10,16 @@ public class TestFruitShop {
     public void setUp() {
         fruitShop = new FruitShop();
         fruitShop.addFruits("src/main/resources/FirstDelivery.json");
-        fruitShop.save("src/main/resources/AllFruitData.json");
         fruitShop.addFruits("src/main/resources/SecondDelivery.json");
+        fruitShop.save("src/main/resources/AllFruitData.json");
         fruitShop.load("src/main/resources/AllFruitData.json");
+        fruitShop.setNumOfDelivery(0);
     }
 
     @Test
     public void testGetAvailableFruits() {
         int numOfAvailableFruits = fruitShop.getAvailableFruits("24-05-2012").size();
-        assertEquals((numOfAvailableFruits), 12);
+        assertEquals((numOfAvailableFruits), 16);
     }
 
     @Test

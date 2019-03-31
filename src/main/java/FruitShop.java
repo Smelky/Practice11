@@ -13,6 +13,11 @@ import java.util.List;
 public class FruitShop {
     private static final Logger LOGGER = Logger.getLogger(FruitShop.class);
     private List<DeliveryList> fruitData = new ArrayList<>();
+    private int numOfDelivery;
+
+    public void setNumOfDelivery(int numOfDelivery) {
+        this.numOfDelivery = numOfDelivery;
+    }
 
     public void addFruits(String pathToJsonFile) {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -28,14 +33,12 @@ public class FruitShop {
 
     public void save(String pathToJsonFile) {
         ObjectMapper mapper = new ObjectMapper();
-        for (DeliveryList deliveryList : fruitData) {
             try {
-                mapper.writeValue(new File(pathToJsonFile), deliveryList);
+                mapper.writeValue(new File(pathToJsonFile), fruitData.get(numOfDelivery));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-    }
 
     public void load(String pathToJsonFile) {
         fruitData.clear();
@@ -51,9 +54,10 @@ public class FruitShop {
     }
 
     public List<Fruit> getSpoiledFruits(String expirationDate) {
-        List<Fruit> fruits = new ArrayList<>(fruitData.get(0).getFruits());
+        List<Fruit> fruits = new ArrayList<>(fruitData.get(numOfDelivery).getFruits());
+        System.out.println(fruits.size());
         List<Fruit> spoiledFruits = new ArrayList<>();
-        long dateDifference = 0;
+        long dateDifference;
         LOGGER.info("Spoiled fruits for " + expirationDate + " from this delivery: ");
         for (Fruit fruit : fruits) {
             long expirationDateOfProduct = Long.parseLong(fruit.getExpirationDate());
@@ -68,15 +72,15 @@ public class FruitShop {
     }
 
     public List<Fruit> getAvailableFruits(String expirationDate) {
-        List<Fruit> fruits = new ArrayList<>(fruitData.get(0).getFruits());
+        List<Fruit> fruits = new ArrayList<>(fruitData.get(numOfDelivery).getFruits());
         List<Fruit> availableFruits = new ArrayList<>();
-        long dateDifference = 0;
+        long dateDifference;
         LOGGER.info("Available fruits for " + expirationDate + " to sell from this delivery: ");
         for (Fruit fruit : fruits) {
             long expirationDateOfProduct = Long.parseLong(fruit.getExpirationDate());
             dateDifference = changeDateFormat(expirationDate).getTime() - fruit.getDateOfDelivery().getTime();
             int differenceInDays = (int) (dateDifference / (24 * 60 * 60 * 1000));
-            if (differenceInDays > expirationDateOfProduct) {
+            if (differenceInDays >= expirationDateOfProduct) {
                 availableFruits.add(fruit);
                 LOGGER.info(fruit.getTypeOfFruits());
             }
@@ -85,7 +89,7 @@ public class FruitShop {
     }
 
     public List<Fruit> getSpoiledFruits(String expirationDate, TypeOfFruit typeOfFruit) {
-        List<Fruit> fruits = new ArrayList<>(fruitData.get(0).getFruits());
+        List<Fruit> fruits = new ArrayList<>(fruitData.get(numOfDelivery).getFruits());
         List<Fruit> spoiledFruits = new ArrayList<>();
         long dateDifference;
         for (Fruit fruit : fruits) {
@@ -103,7 +107,7 @@ public class FruitShop {
     }
 
     public List<Fruit> getAvailableFruits(String expirationDate, TypeOfFruit typeOfFruit) {
-        List<Fruit> fruits = new ArrayList<>(fruitData.get(0).getFruits());
+        List<Fruit> fruits = new ArrayList<>(fruitData.get(numOfDelivery).getFruits());
         List<Fruit> availableFruits = new ArrayList<>();
         long dateDifference;
         for (Fruit fruit : fruits) {
@@ -111,7 +115,7 @@ public class FruitShop {
                 long expirationDateOfProduct = Long.parseLong(fruit.getExpirationDate());
                 dateDifference = changeDateFormat(expirationDate).getTime() - fruit.getDateOfDelivery().getTime();
                 int differenceInDays = (int) (dateDifference / (24 * 60 * 60 * 1000));
-                if (differenceInDays > expirationDateOfProduct) {
+                if (differenceInDays >= expirationDateOfProduct) {
                     availableFruits.add(fruit);
                 }
             }
@@ -121,7 +125,7 @@ public class FruitShop {
     }
 
     public List<Fruit> getAddedFruits(String dateOfDelivery) {
-        List<Fruit> fruits = new ArrayList<>(fruitData.get(0).getFruits());
+        List<Fruit> fruits = new ArrayList<>(fruitData.get(numOfDelivery).getFruits());
         List<Fruit> fruitsWhatWeNeed = new ArrayList<>();
         LOGGER.info("Fruit delivered on " + dateOfDelivery + " : ");
         for (Fruit fruit : fruits) {
@@ -137,7 +141,7 @@ public class FruitShop {
     }
 
     public List<Fruit> getAddedFruits(String dateOfDelivery, TypeOfFruit typeOfFruit) {
-        List<Fruit> fruits = new ArrayList<>(fruitData.get(0).getFruits());
+        List<Fruit> fruits = new ArrayList<>(fruitData.get(numOfDelivery).getFruits());
         List<Fruit> fruitsWhatWeNeed = new ArrayList<>();
         for (Fruit fruit : fruits) {
             if (fruit.getDateOfDelivery().equals(changeDateFormat(dateOfDelivery)) & fruit.getTypeOfFruits().equals(typeOfFruit)) {
