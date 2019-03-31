@@ -71,42 +71,6 @@
       "expirationDate": "2",
       "dateOfDelivery": "18-05-2012",
       "price": 35
-    },
-    {
-      "typeOfFruits": "ORANGE",
-      "expirationDate": "5",
-      "dateOfDelivery": "19-05-2012",
-      "price": 42
-    },
-    {
-      "typeOfFruits": "ORANGE",
-      "expirationDate": "2",
-      "dateOfDelivery": "22-05-2012",
-      "price": 42
-    },
-    {
-      "typeOfFruits": "ORANGE",
-      "expirationDate": "4",
-      "dateOfDelivery": "15-05-2012",
-      "price": 42
-    },
-    {
-      "typeOfFruits": "APPLE",
-      "expirationDate": "5",
-      "dateOfDelivery": "19-05-2012",
-      "price": 29
-    },
-    {
-      "typeOfFruits": "APPLE",
-      "expirationDate": "4",
-      "dateOfDelivery": "16-05-2012",
-      "price": 29
-    },
-    {
-      "typeOfFruits": "APPLE",
-      "expirationDate": "7",
-      "dateOfDelivery": "12-05-2012",
-      "price": 29
     }
   ]
 }
